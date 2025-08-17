@@ -1,0 +1,292 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    font-family: 'Inter', sans-serif;
+    background-color: #000000;
+    color: #ffffff;
+    /* Performance optimizations */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+  
+  /* Optimize images for performance */
+  img {
+    max-width: 100%;
+    height: auto;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+  
+  /* Optimize animations for performance */
+  * {
+    will-change: auto;
+  }
+  
+  /* Reduce motion for users who prefer it */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+.tech-grid {
+  background-image: 
+    linear-gradient(rgba(0, 255, 255, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 255, 255, 0.1) 1px, transparent 1px);
+  background-size: 50px 50px;
+  /* Optimize background rendering */
+  background-attachment: local;
+  transform: translateZ(0);
+}
+
+.neon-glow {
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+  /* GPU acceleration for better performance */
+  transform: translateZ(0);
+}
+
+.neon-text {
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+  transform: translateZ(0);
+}
+
+.digital-border {
+  position: relative;
+  /* Optimize for GPU rendering */
+  transform: translateZ(0);
+}
+
+.digital-border::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, transparent, rgba(0, 255, 255, 0.2), transparent);
+  border-radius: inherit;
+  padding: 1px;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* Chatbot pulse animation */
+@keyframes chatbot-pulse {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.6), 0 0 40px rgba(139, 92, 246, 0.3);
+  }
+}
+
+.chatbot-glow {
+  animation: chatbot-pulse 3s ease-in-out infinite;
+  transform: translateZ(0);
+}
+
+/* Enhanced chatbot popup animation */
+.chatbot-popup-glow {
+  animation: chatbot-popup-pulse 2s ease-in-out infinite;
+}
+
+@keyframes chatbot-popup-pulse {
+  0%, 100% {
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.6), 0 0 60px rgba(139, 92, 246, 0.4);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(0, 255, 255, 0.8), 0 0 80px rgba(139, 92, 246, 0.6);
+    transform: scale(1.02);
+  }
+}
+
+/* Popup bounce animation */
+.popup-bounce {
+  animation: popup-bounce 0.6s ease-out;
+}
+
+@keyframes popup-bounce {
+  0% {
+    transform: translateY(10px) scale(0.9);
+    opacity: 0;
+  }
+  50% {
+    transform: translateY(-5px) scale(1.05);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+/* Performance optimizations */
+.performance-optimized {
+  contain: layout style paint;
+  will-change: transform;
+}
+
+/* Optimize scrolling performance */
+.smooth-scroll {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Optimize iframe rendering */
+iframe {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Hero Button Standardization */
+.hero-button {
+  /* Base dimensions for desktop */
+  width: 200px;
+  height: 56px;
+  padding: 0 1.5rem;
+  font-size: 1rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border-radius: 0;
+  min-height: 56px;
+}
+
+/* Tablet responsiveness */
+@media (max-width: 1024px) {
+  .hero-button {
+    width: 180px;
+    height: 52px;
+    font-size: 0.95rem;
+    padding: 0 1.25rem;
+    min-height: 52px;
+  }
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .hero-button {
+    width: 160px;
+    height: 48px;
+    font-size: 0.875rem;
+    padding: 0 1rem;
+    min-height: 48px;
+  }
+}
+
+/* Small mobile devices */
+@media (max-width: 480px) {
+  .hero-button {
+    width: 140px;
+    height: 44px;
+    font-size: 0.8rem;
+    padding: 0 0.75rem;
+    min-height: 44px;
+  }
+}
+
+/* Extra small devices */
+@media (max-width: 360px) {
+  .hero-button {
+    width: 130px;
+    height: 42px;
+    font-size: 0.75rem;
+    padding: 0 0.5rem;
+    min-height: 42px;
+  }
+}
+
+/* Initial Chatbot Popup Animation */
+.chatbot-initial-popup {
+  animation: chatbot-entrance 0.6s ease-out;
+}
+
+@keyframes chatbot-entrance {
+  0% {
+    opacity: 0;
+    transform: translateY(50px) scale(0.8);
+  }
+  60% {
+    opacity: 0.8;
+    transform: translateY(-10px) scale(1.05);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Enhanced chatbot popup with pulsing glow */
+.chatbot-initial-popup::before {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  background: linear-gradient(45deg, #00ffff, #8b5cf6, #00ffff);
+  border-radius: 1.25rem;
+  z-index: -1;
+  animation: chatbot-glow-pulse 2s ease-in-out infinite;
+  opacity: 0.7;
+}
+
+@keyframes chatbot-glow-pulse {
+  0%, 100% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.02);
+  }
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  .chatbot-initial-popup,
+  .chatbot-initial-popup::before {
+    animation: none !important;
+  }
+  
+  .hero-button {
+    transition: none !important;
+  }
+}
+
+/* Focus states for accessibility */
+.hero-button:focus {
+  outline: 2px solid #00ffff;
+  outline-offset: 2px;
+}
+
+.hero-button:focus-visible {
+  outline: 2px solid #00ffff;
+  outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .hero-button {
+    border-width: 2px;
+  }
+  
+  .chatbot-initial-popup {
+    border: 2px solid #00ffff;
+  }
+}
