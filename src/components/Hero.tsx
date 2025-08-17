@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Play, Zap } from 'lucide-react';
 import Spline from '@splinetool/react-spline';
@@ -8,13 +8,106 @@ interface HeroProps {
 }
 
 const Hero: React.FC<HeroProps> = ({ onViewExamples }) => {
+  // Ultra aggressive watermark removal
+  useEffect(() => {
+    const removeWatermark = () => {
+      try {
+        // Method 1: Target bottom-right positioned elements (common watermark position)
+        const styles = [
+          'div[style*="position: absolute"][style*="bottom: 16px"][style*="right: 16px"]',
+          'div[style*="position: fixed"][style*="bottom: 16px"][style*="right: 16px"]',
+          'div[style*="position: absolute"][style*="bottom: 20px"][style*="right: 20px"]',
+          'div[style*="position: fixed"][style*="bottom: 20px"][style*="right: 20px"]',
+          'a[href*="spline.design"]',
+          'div[style*="bottom"][style*="right"]'
+        ];
+        
+        styles.forEach(selector => {
+          document.querySelectorAll(selector).forEach(el => {
+            (el as HTMLElement).style.display = 'none !important';
+          });
+        });
+
+        // Method 2: Nuclear approach - remove all elements with spline text
+        document.querySelectorAll('*').forEach(el => {
+          const element = el as HTMLElement;
+          const text = element.textContent?.toLowerCase() || '';
+          if (text === 'built with spline' || 
+              (text.includes('spline') && (text.includes('built') || text.includes('made')))) {
+            element.style.display = 'none !important';
+            element.style.visibility = 'hidden !important';
+            element.style.opacity = '0 !important';
+            element.remove();
+          }
+        });
+
+        // Method 3: Hide all canvas siblings aggressively
+        document.querySelectorAll('canvas').forEach(canvas => {
+          let sibling = canvas.nextElementSibling;
+          while (sibling) {
+            const nextSibling = sibling.nextElementSibling;
+            (sibling as HTMLElement).style.display = 'none !important';
+            sibling = nextSibling;
+          }
+        });
+
+        // Method 4: CSS overlay to cover bottom-right area
+        const overlay = document.createElement('div');
+        overlay.style.cssText = `
+          position: fixed !important;
+          bottom: 0 !important;
+          right: 0 !important;
+          width: 200px !important;
+          height: 60px !important;
+          background: transparent !important;
+          z-index: 9999 !important;
+          pointer-events: none !important;
+        `;
+        overlay.id = 'spline-watermark-blocker';
+        
+        // Remove existing overlay first
+        const existingOverlay = document.getElementById('spline-watermark-blocker');
+        if (existingOverlay) existingOverlay.remove();
+        
+        document.body.appendChild(overlay);
+
+      } catch (error) {
+        console.log('Watermark removal attempt completed');
+      }
+    };
+
+    // Run immediately and repeatedly
+    removeWatermark();
+    const intervals = [100, 500, 1000, 2000, 3000, 5000, 8000];
+    intervals.forEach(delay => {
+      setTimeout(removeWatermark, delay);
+    });
+
+    // Continuous monitoring
+    const interval = setInterval(removeWatermark, 1000);
+    setTimeout(() => clearInterval(interval), 30000);
+
+    // Observer for dynamic changes
+    const observer = new MutationObserver(removeWatermark);
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+      attributes: true
+    });
+
+    return () => {
+      observer.disconnect();
+      clearInterval(interval);
+    };
+  }, []);
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black">
       {/* Tech Grid Background */}
       <div className="absolute inset-0 tech-grid opacity-30"></div>
       
-      {/* Spline 3D Scene */}
-      <div className="absolute inset-0 z-0">
+      {/* Spline 3D Scene with additional styling to hide watermarks */}
+      <div className="absolute inset-0 z-0 watermark-hidden">
         <Suspense fallback={
           <div className="w-full h-full flex items-center justify-center bg-black">
             <div className="w-16 h-16 border-4 border-cyan-400 border-t-transparent rounded-full animate-spin neon-glow"></div>
